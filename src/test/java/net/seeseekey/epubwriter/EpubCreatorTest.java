@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
 import java.io.FileOutputStream;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +20,7 @@ public class EpubCreatorTest {
 
         try (FileOutputStream file = new FileOutputStream("test.epub")) {
 
-            EpubBook book = new EpubBook("en", "Samuel .-__Id1", "Samuel Test Book", "Samuel Holtzkampf");
+            EpubBook book = new EpubBook("en", UUID.randomUUID().toString(), "Samuel Test Book", "Samuel Holtzkampf");
 
             book.addContent(this.getClass().getResourceAsStream("/epub30-overview.xhtml"), "application/xhtml+xml", "xhtml/epub30-overview.xhtml", true, true).setId("Overview");
             book.addContent(this.getClass().getResourceAsStream("/idpflogo_web_125.jpg"), "image/jpeg", "img/idpflogo_web_125.jpg", false, false);

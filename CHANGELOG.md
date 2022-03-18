@@ -2,7 +2,19 @@
 
 This changelog goes through all the changes that have been made in each release.
 
-## [1.0.0]() - 2022-03-14
+## [1.0.1-SNAPSHOT]() - 2022-03-14
+
+* Refactoring release
+
+### Changed
+
+* Improve README.md
+
+### Fixed
+
+* Use real UUID for test
+
+## [1.0.0]() - 2022-03-13
 
 * Initial release (fork from epub-creator from OpenCollabZA)
 
