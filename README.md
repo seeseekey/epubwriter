@@ -12,13 +12,13 @@ Library to write EPUB files in version 3.
 
 ## Usage
 
-The library can used via Maven. Add the dependency:
+The library can be used via Maven. Add the dependency:
 
 ```
 <dependency>
     <groupId>net.seeseekey</groupId>
     <artifactId>epubwriter</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
