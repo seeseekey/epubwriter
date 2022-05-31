@@ -1,6 +1,6 @@
 package net.seeseekey.epubwriter.impl;
 
-import net.seeseekey.epubwriter.EpubConstants;
+import net.seeseekey.epubwriter.model.EpubConstants;
 import net.seeseekey.epubwriter.api.TocCreator;
 import net.seeseekey.epubwriter.model.Content;
 import net.seeseekey.epubwriter.model.EpubBook;
@@ -83,13 +83,11 @@ public class TocCreatorDefault implements TocCreator {
 
         TagNode tagNode = cleaner.clean(tocHtml);
 
-        if (!CollectionUtils.isEmpty(links)) {
-            addTocLinks(tagNode, links);
-        }
+        // Add TOC links, if not empty
+        addTocLinks(tagNode, links);
 
-        if (!CollectionUtils.isEmpty(landmarks)) {
-            addLandmarks(tagNode, landmarks);
-        }
+        // Add landmarks, if not empty
+        addLandmarks(tagNode, landmarks);
 
         return htmlSetdown.getAsString(tagNode);
     }
@@ -101,6 +99,12 @@ public class TocCreatorDefault implements TocCreator {
     private void addTocLinks(TagNode tagNode, List<TocLink> links) {
 
         TagNode navNode = tagNode.findElementByAttValue(EPUB_TYPE, "toc", true, false);
+
+        if (CollectionUtils.isEmpty(links)) {
+            navNode.removeFromTree();
+            return;
+        }
+
         TagNode parentNode = navNode.findElementByName("ol", true);
 
         for (TocLink toc : links) {
@@ -123,6 +127,12 @@ public class TocCreatorDefault implements TocCreator {
     private void addLandmarks(TagNode tagNode, List<Landmark> landmarks) {
 
         TagNode navNode = tagNode.findElementByAttValue(EPUB_TYPE, "landmarks", true, false);
+
+        if (CollectionUtils.isEmpty(landmarks)) {
+            navNode.removeFromTree();
+            return;
+        }
+
         TagNode parentNode = navNode.findElementByName("ol", true);
 
         for (Landmark landmark : landmarks) {

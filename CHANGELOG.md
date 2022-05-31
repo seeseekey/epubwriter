@@ -2,17 +2,21 @@
 
 This changelog goes through all the changes that have been made in each release.
 
-## [1.0.1-SNAPSHOT]() - 2022-03-14
+## [1.0.2]() - 2022-05-31
 
 * Refactoring release
 
 ### Changed
 
-* Improve README.md
+* Improve and update README.md
+* Improve and refactor tests
+* Move EpubConstants to model package
 
 ### Fixed
 
 * Use real UUID for test
+* Create xml compliant content id
+* Fix empty toc / landmark blocks in EPUB
 
 ## [1.0.0]() - 2022-03-13
 

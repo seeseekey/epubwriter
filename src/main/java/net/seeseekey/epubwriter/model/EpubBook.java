@@ -1,6 +1,5 @@
 package net.seeseekey.epubwriter.model;
 
-import net.seeseekey.epubwriter.EpubConstants;
 import net.seeseekey.epubwriter.utils.EpubWriter;
 
 import java.io.IOException;
@@ -229,7 +228,7 @@ public class EpubBook {
      */
     private void checkContentId(Content content) {
         if (content.getId() == null) {
-            content.setId(id.replaceAll("[^a-zA-Z0-9\\-]", "_") + "_" + (contentId++));
+            content.setId("uid-" + id.replaceAll("[^a-zA-Z0-9\\-]", "_") + "_" + (contentId++));
         }
     }
 

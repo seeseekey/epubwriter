@@ -11,33 +11,40 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EpubCreatorTest {
+class EpubCreatorTest {
 
     private static final Logger log = Logging.getLogger();
 
     @Test
-    public void testEpubCreate() {
+    void testEpubCreate() {
 
         try (FileOutputStream file = new FileOutputStream("test.epub")) {
 
-            EpubBook book = new EpubBook("en", UUID.randomUUID().toString(), "Samuel Test Book", "Samuel Holtzkampf");
+            // Preparation
+            EpubBook book = new EpubBook("en", UUID.randomUUID().toString(), "Der Fall der Welt", "Avonia");
 
-            book.addContent(this.getClass().getResourceAsStream("/epub30-overview.xhtml"), "application/xhtml+xml", "xhtml/epub30-overview.xhtml", true, true).setId("Overview");
-            book.addContent(this.getClass().getResourceAsStream("/idpflogo_web_125.jpg"), "image/jpeg", "img/idpflogo_web_125.jpg", false, false);
-            book.addContent(this.getClass().getResourceAsStream("/epub-spec.css"), "text/css", "css/epub-spec.css", false, false);
+            book.addContent(this.getClass().getResourceAsStream("/chapter-1.xhtml"), "application/xhtml+xml", "xhtml/chapter-1.xhtml", true, true).setId("Lorem");
+            book.addContent(this.getClass().getResourceAsStream("/chapter-2.xhtml"), "application/xhtml+xml", "xhtml/chapter-2.xhtml", true, true).setId("Ipsum");
 
-            book.addTextContent("TestHtml", "xhtml/samuelTest2.xhtml", "Samuel test one two four!!!!!\nTesting two").setToc(true);
-            book.addTextContent("TestHtml", "xhtml/samuelTest.xhtml", "Samuel test one two three\nTesting two").setToc(true);
+            book.addContent(this.getClass().getResourceAsStream("/style.css"), "text/css", "xhtml/css/style.css", false, false);
 
-            book.addCoverImage(IOUtils.toByteArray(this.getClass().getResourceAsStream("/P1010832.jpg")), "image/jpeg", "images/P1010832.jpg");
+            book.addTextContent("TestHtml", "xhtml/loren.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
+            book.addTextContent("TestHtml", "xhtml/ipsum.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
+
+            book.addCoverImage(IOUtils.toByteArray(this.getClass().getResourceAsStream("/cover.png")), "image/png", "xhtml/images/cover.png");
 
             book.writeToStream(file);
 
-            // TODO real tests to see if document correct, this is just to test that creation is successful
-            assertEquals("test", "test");
+            // Tests
+            assertEquals("Der Fall der Welt", book.getTitle());
+            assertEquals("Avonia", book.getAuthor());
+            assertEquals("en", book.getLanguage());
+
+            assertEquals(7, book.getContents().size());
+            assertEquals(6, book.getUniqueHrefs().size());
+
         } catch (Exception e) {
             log.error("Throw exception due test", e);
-            assertEquals("test", "test1");
         }
     }
 }

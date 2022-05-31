@@ -1,6 +1,6 @@
 package net.seeseekey.epubwriter.utils;
 
-import net.seeseekey.epubwriter.EpubConstants;
+import net.seeseekey.epubwriter.model.EpubConstants;
 import net.seeseekey.epubwriter.api.OpfCreator;
 import net.seeseekey.epubwriter.api.TocCreator;
 import net.seeseekey.epubwriter.impl.OpfCreatorDefault;

@@ -18,7 +18,7 @@ The library can used via Maven. Add the dependency:
 <dependency>
     <groupId>net.seeseekey</groupId>
     <artifactId>epubwriter</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
@@ -26,17 +26,18 @@ The library can used via Maven. Add the dependency:
 
 ```java
 try (FileOutputStream file = new FileOutputStream("test.epub")) {
+    
+  EpubBook book = new EpubBook("en", UUID.randomUUID().toString(), "Der Fall der Welt", "Avonia");
 
-  EpubBook book = new EpubBook("en", UUID.randomUUID().toString(), "Samuel Test Book", "Samuel Holtzkampf");
+  book.addContent(this.getClass().getResourceAsStream("/chapter-1.xhtml"), "application/xhtml+xml", "xhtml/chapter-1.xhtml", true, true).setId("Lorem");
+  book.addContent(this.getClass().getResourceAsStream("/chapter-2.xhtml"), "application/xhtml+xml", "xhtml/chapter-2.xhtml", true, true).setId("Ipsum");
 
-  book.addContent(this.getClass().getResourceAsStream("/epub30-overview.xhtml"), "application/xhtml+xml", "xhtml/epub30-overview.xhtml", true, true).setId("Overview");
-  book.addContent(this.getClass().getResourceAsStream("/idpflogo_web_125.jpg"), "image/jpeg", "img/idpflogo_web_125.jpg", false, false);
-  book.addContent(this.getClass().getResourceAsStream("/epub-spec.css"), "text/css", "css/epub-spec.css", false, false);
+  book.addContent(this.getClass().getResourceAsStream("/style.css"), "text/css", "xhtml/css/style.css", false, false);
 
-  book.addTextContent("TestHtml", "xhtml/samuelTest2.xhtml", "Samuel test one two four!!!!!\nTesting two").setToc(true);
-  book.addTextContent("TestHtml", "xhtml/samuelTest.xhtml", "Samuel test one two three\nTesting two").setToc(true);
+  book.addTextContent("TestHtml", "xhtml/loren.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
+  book.addTextContent("TestHtml", "xhtml/ipsum.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
 
-  book.addCoverImage(IOUtils.toByteArray(this.getClass().getResourceAsStream("/P1010832.jpg")), "image/jpeg", "images/P1010832.jpg");
+  book.addCoverImage(IOUtils.toByteArray(this.getClass().getResourceAsStream("/cover.png")), "image/png", "xhtml/images/cover.png");
 
   book.writeToStream(file);
 }

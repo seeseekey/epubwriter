@@ -1,4 +1,4 @@
-package net.seeseekey.epubwriter;
+package net.seeseekey.epubwriter.model;
 
 /**
  * Constants used as default values in the EpubCreator and EpubBook. This is set
@@ -39,18 +39,18 @@ public class EpubConstants {
     public static final String TOC_XML = """
             <?xml version="1.0" encoding="utf-8"?>
             <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
-            	<head>
-            		<meta charset="utf-8" />
-            		<title>{0}</title>
-            	</head>
-            	<body>
-            		<nav epub:type="toc" id="toc">
+                <head>
+                    <meta charset="utf-8" />
+                    <title>{0}</title>
+                </head>
+                <body>
+                    <nav epub:type="toc" id="toc">
                         <ol></ol>
-            		</nav>
-            		<nav epub:type="landmarks" hidden="">
-                       <ol></ol>
-            		</nav>
-            	</body>
+                    </nav>
+                    <nav epub:type="landmarks" hidden="">
+                        <ol></ol>
+                    </nav>
+                </body>
             </html>""";
 
     /**
