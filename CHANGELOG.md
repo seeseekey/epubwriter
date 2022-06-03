@@ -2,6 +2,12 @@
 
 This changelog goes through all the changes that have been made in each release.
 
+## [1.0.2]() - 2022-05-03
+
+### Fixed
+
+* Fix problem with children in table of contents
+
 ## [1.0.1]() - 2022-05-31
 
 * Refactoring release

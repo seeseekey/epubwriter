@@ -93,8 +93,7 @@ public class TocCreatorDefault implements TocCreator {
     }
 
     /**
-     * Recursive method adding links and sub links to the TOC Navigation
-     * Document
+     * Prepare and write TOC
      */
     private void addTocLinks(TagNode tagNode, List<TocLink> links) {
 
@@ -105,16 +104,26 @@ public class TocCreatorDefault implements TocCreator {
             return;
         }
 
-        TagNode parentNode = navNode.findElementByName("ol", true);
+        addTocLinksSub(navNode, links);
+    }
+
+    /**
+     * Recursive method adding links and sub links to the TOC navigation document
+     */
+    private void addTocLinksSub(TagNode tagNode, List<TocLink> links) {
+
+        TagNode parentNode = tagNode.findElementByName("ol", true);
 
         for (TocLink toc : links) {
 
             TagNode linkNode = buildLinkNode(toc);
 
             if (!CollectionUtils.isEmpty(toc.getTocChildLinks())) {
+
                 TagNode olNode = new TagNode("ol");
-                addTocLinks(olNode, toc.getTocChildLinks());
                 linkNode.addChild(olNode);
+
+                addTocLinksSub(linkNode, toc.getTocChildLinks());
             }
 
             parentNode.addChild(linkNode);
