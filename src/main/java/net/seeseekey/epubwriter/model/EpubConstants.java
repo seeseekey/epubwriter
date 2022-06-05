@@ -67,7 +67,7 @@ public class EpubConstants {
     /**
      * Default folder used to save content in
      */
-    public static final String CONTENT_FOLDER = "content";
+    public static final String OPS_FOLDER = "OPS";
 
     /**
      * The default href of the toc file

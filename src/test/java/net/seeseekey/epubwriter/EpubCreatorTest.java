@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class EpubCreatorTest {
 
@@ -28,36 +29,37 @@ class EpubCreatorTest {
             // Create book
             EpubBook book = new EpubBook("en", UUID.randomUUID().toString(), "Der Fall der Welt", "Avonia");
 
-            book.addContent(this.getClass().getResourceAsStream("/chapter-1.xhtml"), "application/xhtml+xml", "xhtml/chapter-1.xhtml", true, true).setId("Lorem");
-            book.addContent(this.getClass().getResourceAsStream("/chapter-2.xhtml"), "application/xhtml+xml", "xhtml/chapter-2.xhtml", true, true).setId("Ipsum");
+            book.addContent(this.getClass().getResourceAsStream("/chapter-1.xhtml"), "application/xhtml+xml", "chapter-1.xhtml", true, true).setId("Lorem");
+            book.addContent(this.getClass().getResourceAsStream("/chapter-2.xhtml"), "application/xhtml+xml", "chapter-2.xhtml", true, true).setId("Ipsum");
 
-            book.addContent(this.getClass().getResourceAsStream("/style.css"), "text/css", "xhtml/css/style.css", false, false);
+            book.addContent(this.getClass().getResourceAsStream("/style.css"), "text/css", "css/style.css", false, false);
 
-            book.addTextContent("TestHtml", "xhtml/loren.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
-            book.addTextContent("TestHtml", "xhtml/ipsum.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
+            book.addTextContent("TestHtml", "loren.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
+            book.addTextContent("TestHtml", "ipsum.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
 
+            // Cover
             InputStream coverResourceStream = this.getClass().getResourceAsStream("/cover.png");
 
-            if(coverResourceStream != null) {
-                book.addCoverImage(IOUtils.toByteArray(coverResourceStream), "image/png", "xhtml/images/cover.png");
+            if (coverResourceStream != null) {
+                book.addCoverImage(IOUtils.toByteArray(coverResourceStream), "image/png", "images/cover.png");
             }
 
             // Create toc
             List<TocLink> tocLinks = new ArrayList<>();
 
             // Chapter 1
-            TocLink tocChapter1 = new TocLink("xhtml/chapter-1.xhtml", "Chapter 1", null);
+            TocLink tocChapter1 = new TocLink("chapter-1.xhtml", "Chapter 1", null);
 
             List<TocLink> tocChapter1Sections = new ArrayList<>();
 
-            tocChapter1Sections.add(new TocLink("xhtml/chapter-1.xhtml#section-1.1", "Section 1.1", null));
-            tocChapter1Sections.add(new TocLink("xhtml/chapter-1.xhtml#section-1.2", "Section 1.2", null));
+            tocChapter1Sections.add(new TocLink("chapter-1.xhtml#section-1.1", "Section 1.1", null));
+            tocChapter1Sections.add(new TocLink("chapter-1.xhtml#section-1.2", "Section 1.2", null));
 
             tocChapter1.setTocChildLinks(tocChapter1Sections);
             tocLinks.add(tocChapter1);
 
             // Chapter 2
-            tocLinks.add(new TocLink("xhtml/chapter-2.xhtml", "Chapter 2", null));
+            tocLinks.add(new TocLink("chapter-2.xhtml", "Chapter 2", null));
 
             // Set toc options
             book.setAutoToc(false);
@@ -78,6 +80,7 @@ class EpubCreatorTest {
 
         } catch (Exception e) {
             log.error("Throw exception due test", e);
+            fail();
         }
     }
 }

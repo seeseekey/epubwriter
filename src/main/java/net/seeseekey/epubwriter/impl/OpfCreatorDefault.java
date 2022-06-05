@@ -4,6 +4,7 @@ import net.seeseekey.epubwriter.model.EpubConstants;
 import net.seeseekey.epubwriter.api.OpfCreator;
 import net.seeseekey.epubwriter.model.Content;
 import net.seeseekey.epubwriter.model.EpubBook;
+import net.seeseekey.epubwriter.model.MetaTag;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlCleaner;
@@ -13,6 +14,7 @@ import org.htmlcleaner.TagNode;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Default implementation of the OpfCreator. This follows EPUB3 standards to
@@ -82,6 +84,18 @@ public class OpfCreatorDefault implements OpfCreator {
 
             TagNode creatorNode = new TagNode("dc:creator");
             creatorNode.addChild(new ContentNode(book.getAuthor()));
+            metaNode.addChild(creatorNode);
+        }
+
+        // Add additional meta tags
+        for (MetaTag metaTag : book.getMetaTags()) {
+
+            TagNode creatorNode = new TagNode("meta");
+
+            for (Map.Entry<String, String> tagAttribute : metaTag.getAttributes().entrySet()) {
+                creatorNode.addAttribute(tagAttribute.getKey(), tagAttribute.getValue());
+            }
+
             metaNode.addChild(creatorNode);
         }
     }

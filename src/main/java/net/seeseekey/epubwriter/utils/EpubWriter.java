@@ -27,7 +27,7 @@ public class EpubWriter {
 
     private String containerXML = EpubConstants.CONTAINER_XML;
 
-    private String contentFolder = EpubConstants.CONTENT_FOLDER;
+    private String contentFolder = EpubConstants.OPS_FOLDER;
 
     private String opfFileName = EpubConstants.OPF_FILE_NAME;
 

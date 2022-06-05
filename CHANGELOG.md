@@ -2,7 +2,24 @@
 
 This changelog goes through all the changes that have been made in each release.
 
-## [1.0.2]() - 2022-05-03
+## [1.0.3]() - 2022-06-05
+
+### Added
+
+* New classes and methods to add meta tags to the book
+* Add cover meta tag for addCoverImage method
+
+### Fixed
+
+* Fix changelog date for version 1.0.2
+* Fix some compiler warnings
+
+### Changed
+
+* Rename content folder to OPS, according to de facto standard
+* Update README.md
+
+## [1.0.2]() - 2022-06-03
 
 ### Fixed
 

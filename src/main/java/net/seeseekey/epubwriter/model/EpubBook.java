@@ -65,6 +65,11 @@ public class EpubBook {
     private final Set<String> uniqueHrefs;
 
     /**
+     * List of additional meta tags
+     */
+    private final List<MetaTag> metaTags;
+
+    /**
      * The href can not be repeated in the OPF, thus is we want to add the same
      * content in more than one place we have to create duplicate Content
      * objects but with different href's
@@ -79,6 +84,7 @@ public class EpubBook {
         this.contents = new ArrayList<>();
         this.tocLinks = new ArrayList<>();
         this.uniqueHrefs = new HashSet<>();
+        this.metaTags = new ArrayList<>();
     }
 
     /**
@@ -141,17 +147,29 @@ public class EpubBook {
     }
 
     /**
+     * Returns all custom meta tags
+     */
+    public List<MetaTag> getMetaTags() {
+        return metaTags;
+    }
+
+    /**
+     * Add a meta tag to the book
+     */
+    public void addMetaTag(MetaTag metaTag) {
+        metaTags.add(metaTag);
+    }
+
+    /**
      * Adds content to the content list and checks the id. Only adds unique
      * href's
      *
      * @param content the EpubBook content - TOC, pages, files
-     * @return boolean indicating if the content has been added
      */
-    public boolean addContent(Content content) {
+    public void addContent(Content content) {
         checkContentId(content);
         checkHref(content);
         contents.add(content);
-        return true;
     }
 
     /**
@@ -240,10 +258,19 @@ public class EpubBook {
      * @param href       used to name the cover image
      */
     public void addCoverImage(byte[] coverImage, String mediaType, String href) {
+
+        // Set cover image
         Content cover = new Content(mediaType, href, coverImage);
         cover.setProperties("cover-image");
         cover.setSpine(false);
         addContent(cover);
+
+        // Set meta tag for cover image
+        MetaTag metaTag = new MetaTag();
+        metaTag.addAttribute("name", "cover");
+        metaTag.addAttribute("content", cover.getId());
+
+        addMetaTag(metaTag);
     }
 
     /**
