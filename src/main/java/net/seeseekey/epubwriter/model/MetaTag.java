@@ -5,7 +5,6 @@ import java.util.Map;
 
 /**
  * Data object for one meta tag.
- * Example: <meta name="cover" content="coverImage" />
  */
 public class MetaTag {
 
