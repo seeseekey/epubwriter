@@ -21,39 +21,63 @@ public class EpubBook {
      * JavaScript or any other resource
      */
     private List<Content> contents;
+
     /**
      * Indicates whether the TOC must be created automatically. If this is false
      * the tocLinks must be set
      */
     private boolean autoToc = true;
+
     /**
      * The 2 letter language code set in the dc:language meta data
      */
     private String language;
+
     /**
      * The id used as the meta data dc:identifier
      */
     private String id;
+
     /**
      * The title of the book
      */
     private String title;
+
     /**
-     * The author, this is set as the meta data dc:creator value
+     * The author, this is set as the metadata dc:creator value
      */
     private String author;
+
+    /**
+     * The publisher, this is set as the metadata dc:publisher value
+     */
+    private String publisher;
+
+    /**
+     * The copyright remark, this is set as the metadata dc:rights value
+     */
+    private String rights;
+
+    /**
+     * The isbn, this is set as the metadata dc:creator value
+     */
+    private String isbn;
+
     /**
      * Unique content id that is incremental set on content with no id
      */
     private int contentId = 1;
+
     /**
      * List of the links that must be added to the TOC, they can be nested
      */
     private List<TocLink> tocLinks;
+
     /**
      * List of the landmarks to be added to the TOC
      */
     private List<Landmark> landmarks;
+
     /**
      * Instance of the EpubWriter to write the book to file or stream
      */
@@ -234,17 +258,22 @@ public class EpubBook {
      *                             byte[]
      */
     public Content addContent(InputStream contents, String mediaType, String href, boolean toc, boolean spine) throws IOException {
+
         Content content = new Content(mediaType, href, contents);
+
         content.setToc(toc);
         content.setSpine(spine);
+
         addContent(content);
+
         return content;
     }
 
     /**
-     * Checks if Content object has an id and adds an unique if not
+     * Checks if Content object has an id and adds a unique if not
      */
     private void checkContentId(Content content) {
+
         if (content.getId() == null) {
             content.setId("uid-" + id.replaceAll("[^a-zA-Z0-9\\-]", "_") + "_" + (contentId++));
         }
@@ -403,6 +432,48 @@ public class EpubBook {
      */
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    /**
+     * @return the publisher
+     */
+    public String getPublisher() {
+        return publisher;
+    }
+
+    /**
+     * @param publisher the publisher to set
+     */
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    /**
+     * @return the rights
+     */
+    public String getRights() {
+        return rights;
+    }
+
+    /**
+     * @param rights the rights to set
+     */
+    public void setRights(String rights) {
+        this.rights = rights;
+    }
+
+    /**
+     * @return the ISBN
+     */
+    public String getIsbn() {
+        return isbn;
+    }
+
+    /**
+     * @param isbn the ISBN to set
+     */
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     /**

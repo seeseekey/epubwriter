@@ -2,6 +2,28 @@
 
 This changelog goes through all the changes that have been made in each release.
 
+## [1.0.4]() - 2023-05-29
+
+### Added
+
+* Possibility to add ISBN to metadata
+* Possibility to add publisher to metadata
+* Possibility to add copyright remark to metadata
+
+### Fixed
+
+* Fix problem with validation of non-linear TOC
+
+### Changed
+
+* Update dependencies
+* Minor refactoring in some classes
+* Update EpubCreatorTest
+
+### Removed
+
+* Apache dependencies removed
+
 ## [1.0.3]() - 2022-06-05
 
 ### Added

@@ -1,7 +1,7 @@
 package net.seeseekey.epubwriter.model;
 
+import net.seeseekey.epubwriter.utils.DataUtils;
 import net.seeseekey.epubwriter.utils.MediaTypeUtil;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,11 +67,13 @@ public class Content {
      * @param content   the file byte array
      */
     public Content(String mediaType, String href, byte[] content) {
+
         if (mediaType == null) {
             this.mediaType = MediaTypeUtil.getMediaTypeFromFilename(href);
         } else {
             this.mediaType = mediaType;
         }
+
         this.href = href;
         this.content = content;
     }
@@ -126,7 +128,7 @@ public class Content {
      *                             array
      */
     public Content(String mediaType, String href, InputStream content) throws IOException {
-        this(mediaType, href, IOUtils.toByteArray(content));
+        this(mediaType, href, DataUtils.toByteArray(content));
     }
 
     /**
@@ -138,7 +140,7 @@ public class Content {
      *                             array
      */
     public Content(String href, InputStream content) throws IOException {
-        this(MediaTypeUtil.getMediaTypeFromFilename(href), href, IOUtils.toByteArray(content));
+        this(MediaTypeUtil.getMediaTypeFromFilename(href), href, DataUtils.toByteArray(content));
     }
 
     /**
@@ -154,7 +156,7 @@ public class Content {
      *                             array
      */
     public Content(String mediaType, String href, String id, String properties, InputStream content) throws IOException {
-        this(mediaType, href, id, properties, IOUtils.toByteArray(content));
+        this(mediaType, href, id, properties, DataUtils.toByteArray(content));
     }
 
     /**
@@ -169,7 +171,7 @@ public class Content {
      *                             array
      */
     public Content(String href, String id, String properties, InputStream content) throws IOException {
-        this(MediaTypeUtil.getMediaTypeFromFilename(href), href, id, properties, IOUtils.toByteArray(content));
+        this(MediaTypeUtil.getMediaTypeFromFilename(href), href, id, properties, DataUtils.toByteArray(content));
     }
 
     /**

@@ -1,12 +1,12 @@
 package net.seeseekey.epubwriter.impl;
 
-import net.seeseekey.epubwriter.model.EpubConstants;
 import net.seeseekey.epubwriter.api.TocCreator;
 import net.seeseekey.epubwriter.model.Content;
 import net.seeseekey.epubwriter.model.EpubBook;
+import net.seeseekey.epubwriter.model.EpubConstants;
 import net.seeseekey.epubwriter.model.Landmark;
 import net.seeseekey.epubwriter.model.TocLink;
-import org.apache.commons.collections.CollectionUtils;
+import net.seeseekey.epubwriter.utils.DataUtils;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlCleaner;
@@ -69,7 +69,6 @@ public class TocCreatorDefault implements TocCreator {
         Content toc = new Content("application/xhtml+xml", getHref(), tocString.getBytes());
         toc.setProperties("nav");
         toc.setId("toc");
-        toc.setLinear(false);
 
         return toc;
     }
@@ -99,7 +98,7 @@ public class TocCreatorDefault implements TocCreator {
 
         TagNode navNode = tagNode.findElementByAttValue(EPUB_TYPE, "toc", true, false);
 
-        if (CollectionUtils.isEmpty(links)) {
+        if (DataUtils.isEmpty(links)) {
             navNode.removeFromTree();
             return;
         }
@@ -118,7 +117,7 @@ public class TocCreatorDefault implements TocCreator {
 
             TagNode linkNode = buildLinkNode(toc);
 
-            if (!CollectionUtils.isEmpty(toc.getTocChildLinks())) {
+            if (!DataUtils.isEmpty(toc.getTocChildLinks())) {
 
                 TagNode olNode = new TagNode("ol");
                 linkNode.addChild(olNode);
@@ -137,7 +136,7 @@ public class TocCreatorDefault implements TocCreator {
 
         TagNode navNode = tagNode.findElementByAttValue(EPUB_TYPE, "landmarks", true, false);
 
-        if (CollectionUtils.isEmpty(landmarks)) {
+        if (DataUtils.isEmpty(landmarks)) {
             navNode.removeFromTree();
             return;
         }

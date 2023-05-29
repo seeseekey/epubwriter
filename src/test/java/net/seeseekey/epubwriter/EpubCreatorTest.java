@@ -1,9 +1,10 @@
 package net.seeseekey.epubwriter;
 
 import net.seeseekey.epubwriter.model.EpubBook;
+import net.seeseekey.epubwriter.model.Landmark;
 import net.seeseekey.epubwriter.model.TocLink;
+import net.seeseekey.epubwriter.utils.DataUtils;
 import net.seeseekey.epubwriter.utils.Logging;
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
@@ -26,22 +27,48 @@ class EpubCreatorTest {
 
         try (FileOutputStream file = new FileOutputStream("test.epub")) {
 
-            // Create book
-            EpubBook book = new EpubBook("en", UUID.randomUUID().toString(), "Der Fall der Welt", "Avonia");
+            // Create book and set information
+            EpubBook book = new EpubBook("de", UUID.randomUUID().toString(), "Der Fall der Welt", "Avonia");
 
-            book.addContent(this.getClass().getResourceAsStream("/chapter-1.xhtml"), "application/xhtml+xml", "chapter-1.xhtml", true, true).setId("Lorem");
-            book.addContent(this.getClass().getResourceAsStream("/chapter-2.xhtml"), "application/xhtml+xml", "chapter-2.xhtml", true, true).setId("Ipsum");
+            book.setPublisher("ACME");
+            book.setRights("© 2023 by Avonia");
 
-            book.addContent(this.getClass().getResourceAsStream("/style.css"), "text/css", "css/style.css", false, false);
+            // Set ISBN
+            book.setIsbn("9781566199094"); // Example ISBN (13 digits)
 
-            book.addTextContent("TestHtml", "loren.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
-            book.addTextContent("TestHtml", "ipsum.xhtml", "Lorem ipsum dolor sit amet, consectetur, adipisci velit.").setToc(true);
+            // Add content
+            book.addContent(this.getClass().getResourceAsStream("/chapter-1.xhtml"),
+                            "application/xhtml+xml", "chapter-1.xhtml",
+                            true,
+                            true)
+                    .setId("Lorem");
 
-            // Cover
+            book.addContent(this.getClass().getResourceAsStream("/chapter-2.xhtml"),
+                            "application/xhtml+xml",
+                            "chapter-2.xhtml",
+                            true,
+                            true)
+                    .setId("Ipsum");
+
+            // CSS
+            book.addContent(this.getClass().getResourceAsStream("/style.css"),
+                    "text/css", "css/style.css",
+                    false,
+                    false);
+
+            // Cover XHTML
+            book.addContent(this.getClass().getResourceAsStream("/cover.xhtml"),
+                            "application/xhtml+xml",
+                            "cover.xhtml",
+                            true,
+                            true)
+                    .setId("Cover");
+
+            // Cover Image
             InputStream coverResourceStream = this.getClass().getResourceAsStream("/cover.png");
 
             if (coverResourceStream != null) {
-                book.addCoverImage(IOUtils.toByteArray(coverResourceStream), "image/png", "images/cover.png");
+                book.addCoverImage(DataUtils.toByteArray(coverResourceStream), "image/png", "images/cover.png");
             }
 
             // Create toc
@@ -65,16 +92,49 @@ class EpubCreatorTest {
             book.setAutoToc(false);
             book.setTocLinks(tocLinks);
 
+            // Create Landmarks
+            List<Landmark> landmarks = new ArrayList<>();
+
+            // Start of real content (bodymatter)
+            Landmark landmark = new Landmark();
+
+            landmark.setType("bodymatter");
+            landmark.setHref("chapter-1.xhtml");
+            landmark.setTitle("Start of Content");
+
+            landmarks.add(landmark);
+
+            // Start of cover
+            landmark = new Landmark();
+
+            landmark.setType("cover");
+            landmark.setHref("cover.xhtml");
+            landmark.setTitle("Cover");
+
+            landmarks.add(landmark);
+
+            // TOC
+            landmark = new Landmark();
+
+            landmark.setType("toc");
+            landmark.setHref("toc.xhtml#toc");
+            landmark.setTitle("Table of Contents");
+
+            landmarks.add(landmark);
+
+            // Set landmarks
+            book.setLandmarks(landmarks);
+
             // Write book
             book.writeToStream(file);
 
             // Tests
             assertEquals("Der Fall der Welt", book.getTitle());
             assertEquals("Avonia", book.getAuthor());
-            assertEquals("en", book.getLanguage());
+            assertEquals("de", book.getLanguage());
 
-            assertEquals(7, book.getContents().size());
-            assertEquals(6, book.getUniqueHrefs().size());
+            assertEquals(6, book.getContents().size());
+            assertEquals(5, book.getUniqueHrefs().size());
 
             assertNotNull(coverResourceStream);
 

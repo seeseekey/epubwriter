@@ -66,7 +66,7 @@ public class OpfCreatorDefault implements OpfCreator {
     }
 
     /**
-     * Add the required meta data
+     * Add the required metadata
      *
      * @param tagNode the HTML tagNode of the OPF template
      * @param book    the EpubBook
@@ -75,7 +75,24 @@ public class OpfCreatorDefault implements OpfCreator {
 
         TagNode metaNode = tagNode.findElementByName("metadata", true);
 
-        addNodeData(metaNode, "dc:identifier", book.getId());
+        // If ISBN is set, use ISBN instead of generated UID
+        if (book.getIsbn() != null) {
+
+            addNodeData(metaNode, "dc:identifier", book.getIsbn());
+
+            // Define refining of UID to ONIX codelist
+            TagNode creatorNode = new TagNode("meta");
+            creatorNode.addAttribute("refines", "#uid");
+            creatorNode.addAttribute("property", "identifier-type");
+            creatorNode.addAttribute("scheme", "onix:codelist5");
+            creatorNode.addChild(new ContentNode("15")); // ISBN-13
+            metaNode.addChild(creatorNode);
+
+        } else {
+
+            addNodeData(metaNode, "dc:identifier", book.getId());
+        }
+
         addNodeData(metaNode, "dc:title", book.getTitle());
         addNodeData(metaNode, "dc:language", book.getLanguage());
         addNodeData(metaNode, "meta", new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'").format(new Date()));
@@ -84,6 +101,20 @@ public class OpfCreatorDefault implements OpfCreator {
 
             TagNode creatorNode = new TagNode("dc:creator");
             creatorNode.addChild(new ContentNode(book.getAuthor()));
+            metaNode.addChild(creatorNode);
+        }
+
+        if (book.getPublisher() != null) {
+
+            TagNode creatorNode = new TagNode("dc:publisher");
+            creatorNode.addChild(new ContentNode(book.getPublisher()));
+            metaNode.addChild(creatorNode);
+        }
+
+        if (book.getRights() != null) {
+
+            TagNode creatorNode = new TagNode("dc:rights");
+            creatorNode.addChild(new ContentNode(book.getRights()));
             metaNode.addChild(creatorNode);
         }
 
@@ -178,7 +209,6 @@ public class OpfCreatorDefault implements OpfCreator {
 
     /**
      * Adds a ContentNode (value) with to a child element of the TagNode
-     *
      * <elementName>{value}<elementName>
      */
     private void addNodeData(TagNode tagNode, String elementName, String value) {

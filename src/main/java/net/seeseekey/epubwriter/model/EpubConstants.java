@@ -41,13 +41,13 @@ public class EpubConstants {
             <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
                 <head>
                     <meta charset="utf-8" />
-                    <title>{0}</title>
+                    <title>TOC</title>
                 </head>
                 <body>
                     <nav epub:type="toc" id="toc">
                         <ol></ol>
                     </nav>
-                    <nav epub:type="landmarks" hidden="">
+                    <nav epub:type="landmarks" hidden="hidden">
                         <ol></ol>
                     </nav>
                 </body>
