@@ -6,7 +6,7 @@
     <!-- Artifact / group id and version -->
     <groupId>net.seeseekey</groupId>
     <artifactId>epubwriter</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5-SNAPSHOT</version>
 
     <!-- Metadata -->
     <name>epubwriter</name>
